@@ -57,8 +57,8 @@ DualPadMapper 将链路改为：
 需要 Xcode Command Line Tools。无需第三方依赖：
 
 ```bash
-git clone <your-repository-url>
-cd <repository-directory>
+git clone https://github.com/czz120/DualPadMapper.git
+cd DualPadMapper
 bash scripts/build.sh
 ```
 
