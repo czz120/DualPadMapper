@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   macos:
     runs-on: macos-15
@@ -17,3 +20,17 @@ jobs:
         with:
           name: DualPadMapper-macOS
           path: dist/DualPadMapper-macOS.zip
+      - name: Publish v1.0.0 release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v1.0.0 >/dev/null 2>&1; then
+            echo "v1.0.0 already exists; skipping release creation."
+            exit 0
+          fi
+          gh release create v1.0.0 \
+            dist/DualPadMapper-macOS.zip \
+            --target "$GITHUB_SHA" \
+            --title "DualPadMapper v1.0.0" \
+            --notes "Initial public release. See README for supported controllers, installation, macOS Accessibility permission, and Steam Input setup."
